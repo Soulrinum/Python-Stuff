@@ -661,9 +661,9 @@ class ProcessTab(tk.Frame):  # Frames for loading data files, processing rows, a
             # - field.title() makes 'temperature', 'Temperature' for nicer display.
             # - Numeric stats are formatted with a few decimal places for readability; min/max are printed as-is.
 
-        out_lines.append('\nSample rows (first 5):')  # Adds a header before sample rows to show example data structure.
+        out_lines.append('\nSample rows (first 15):')  # Adds a header before sample rows to show example data structure.
 
-        for r in rows[:5]:  # Adds up to the first 5 rows; helpful to spot-check the parsed structure and values.
+        for r in rows[:15]:  # Adds up to the first 5 rows; helpful to spot-check the parsed structure and values.
             out_lines.append(str(r))  # Convert the dict to a string and append so the user can visually inspect a few records.
 
         self.text.delete('1.0', 'end')  # Clears existing content in the summary Text widget.
@@ -674,13 +674,13 @@ class ProcessTab(tk.Frame):  # Frames for loading data files, processing rows, a
         rows = list(self.app.inserted_rows)  # Copies current inserted rows and pass to process_rows.
         self.process_rows(rows)
 
-    def save_summary(self):  # Saves the current content of the summary Text widget to a .txt file.
+    def save_summary(self):  # Saves the current content of the summary Text widget to a .txt or .csv file based off your choice.
         content = self.text.get('1.0', 'end').strip()  # Read the entire contents and strip trailing whitespace/newlines.
         if not content:
             messagebox.showwarning('No summary', 'There is no summary to save.')
             return  # Nothing to save; alert the user.
 
-        f = filedialog.asksaveasfilename(defaultextension='.txt', filetypes=[('Text files', '*.txt')])
+        f = filedialog.asksaveasfilename(defaultextension='.txt', filetypes=[('Text File', '*.txt'), ('CSV File', '*.csv')])
         if not f:
             return  # User cancelled the save dialog.
 
